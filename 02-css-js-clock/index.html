@@ -55,9 +55,40 @@
         background: black;
         position: absolute;
         top: 50%;
+        transform-origin: 100%;
+        transition: all 0.05s;
+        transition-timing-function: cubic-bezier(0,3.95,1,-0.62);
       }
     </style>
 
-    <script></script>
+    <script>
+      const secMinDegrees = 360 / 60;
+      const hourDegrees = 360 / 12;
+
+      function getDate() {
+        const now = new Date();
+
+        return {
+          seconds: now.getSeconds(),
+          minutes: now.getMinutes(),
+          hours: now.getHours() % 12
+        }
+      }
+
+      function moveClock() {
+        const {hours, minutes, seconds} = getDate();
+        const hDeg = 90 + hours * hourDegrees;
+        const mDeg = 90 + minutes * secMinDegrees;
+        const sDeg = 90 + seconds * secMinDegrees;
+
+        document.getElementsByClassName('hour-hand')[0].style.transform = `rotate(${hDeg}deg)`
+        document.getElementsByClassName('min-hand')[0].style.transform = `rotate(${mDeg}deg)`
+        document.getElementsByClassName('second-hand')[0].style.transform = `rotate(${sDeg}deg)`
+      }
+
+
+      setInterval(moveClock, 1000);
+      moveClock();
+    </script>
   </body>
 </html>
